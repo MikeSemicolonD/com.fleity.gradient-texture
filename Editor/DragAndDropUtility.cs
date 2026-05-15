@@ -11,21 +11,30 @@ namespace Packages.GradientTextureGenerator.Editor
     /// </summary>
     public static class DragAndDropUtility
     {
+#if UNITY_6000_3_OR_NEWER
+        private static DragAndDrop.ProjectBrowserDropHandlerV2 projectHandler;
+#else
         private static DragAndDrop.ProjectBrowserDropHandler projectHandler;
+#endif
         
         [InitializeOnLoadMethod]
         public static void Init()
         {
             projectHandler = ProjectDropHandler;
+#if UNITY_6000_3_OR_NEWER
+            DragAndDrop.RemoveDropHandlerV2(projectHandler);
+            DragAndDrop.AddDropHandlerV2(projectHandler);
+#else
             DragAndDrop.RemoveDropHandler(projectHandler);
             DragAndDrop.AddDropHandler(projectHandler);
+#endif
         }
 
-        #if UNITY_6000_3_OR_NEWER
+#if UNITY_6000_3_OR_NEWER
         private static DragAndDropVisualMode ProjectDropHandler(UnityEngine.EntityId dragInstanceId, string dropUponPath, bool perform)
-        #else
+#else
         private static DragAndDropVisualMode ProjectDropHandler(int dragInstanceId, string dropUponPath, bool perform)
-        #endif
+#endif
         {
             if (!perform)
             {
