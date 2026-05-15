@@ -20,8 +20,12 @@ namespace Packages.GradientTextureGenerator.Editor
             DragAndDrop.RemoveDropHandler(projectHandler);
             DragAndDrop.AddDropHandler(projectHandler);
         }
-        
+
+        #if UNITY_6000_3_OR_NEWER
+        private static DragAndDropVisualMode ProjectDropHandler(UnityEngine.EntityId dragInstanceId, string dropUponPath, bool perform)
+        #else
         private static DragAndDropVisualMode ProjectDropHandler(int dragInstanceId, string dropUponPath, bool perform)
+        #endif
         {
             if (!perform)
             {
